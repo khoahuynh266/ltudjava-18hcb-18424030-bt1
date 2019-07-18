@@ -12,15 +12,20 @@ import java.util.ArrayList;
  * @author Gogojungle
  */
 public class School {
-    private int schoolYear;
+    private int soLop;
     private ArrayList<LopHoc> listLopHoc = new ArrayList<LopHoc>();
     
-    public int getSchoolYear(){
-        return this.schoolYear;
+    
+    public School() {
+        this.soLop = 0;
+    }
+    
+    public int getsoLop(){
+        return this.soLop;
     }
     
     public void setSchoolYear(int year){
-        this.schoolYear = year;
+        this.soLop = year;
     }
     
     public void addClass(LopHoc lh){

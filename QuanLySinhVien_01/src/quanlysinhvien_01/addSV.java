@@ -27,21 +27,137 @@ public class addSV extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        lblMSSV = new javax.swing.JLabel();
+        lblMSSV1 = new javax.swing.JLabel();
+        lblMSSV2 = new javax.swing.JLabel();
+        textMSSV = new javax.swing.JTextField();
+        textCMND = new javax.swing.JTextField();
+        rBtnNu = new javax.swing.JRadioButton();
+        rBtnNam1 = new javax.swing.JRadioButton();
+        textName1 = new javax.swing.JTextField();
+        btnOK = new javax.swing.JButton();
+        btnCancle1 = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setText("Thông Tin Sinh Viên ");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setText("Họ Tên:");
+        jLabel2.setToolTipText("");
+
+        lblMSSV.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblMSSV.setText("MSSV:");
+
+        lblMSSV1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblMSSV1.setText("CMND:");
+
+        lblMSSV2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblMSSV2.setText("Giới tính:");
+
+        textMSSV.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        textCMND.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        rBtnNu.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        rBtnNu.setText("Nữ");
+        rBtnNu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rBtnNuActionPerformed(evt);
+            }
+        });
+
+        rBtnNam1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        rBtnNam1.setText("Nam");
+
+        textName1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        btnOK.setBackground(new java.awt.Color(153, 204, 255));
+        btnOK.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnOK.setText("OK");
+
+        btnCancle1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnCancle1.setText("Hủy");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(100, 100, 100)
+                .addComponent(lblMSSV1)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(84, 84, 84)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addComponent(lblMSSV)
+                                .addGap(39, 39, 39))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(40, 40, 40)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textMSSV, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textName1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textCMND, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblMSSV2)
+                        .addGap(51, 51, 51)
+                        .addComponent(rBtnNam1)
+                        .addGap(81, 81, 81)
+                        .addComponent(rBtnNu))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(81, 81, 81)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnCancle1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(71, 71, 71)
+                                .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1))))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(jLabel1)
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textMSSV, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblMSSV))
+                .addGap(49, 49, 49)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textName1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(41, 41, 41)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMSSV2)
+                    .addComponent(rBtnNu)
+                    .addComponent(rBtnNam1))
+                .addGap(41, 41, 41)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMSSV1)
+                    .addComponent(textCMND, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCancle1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(52, 52, 52))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void rBtnNuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rBtnNuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rBtnNuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +195,17 @@ public class addSV extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancle1;
+    private javax.swing.JButton btnOK;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblMSSV;
+    private javax.swing.JLabel lblMSSV1;
+    private javax.swing.JLabel lblMSSV2;
+    private javax.swing.JRadioButton rBtnNam1;
+    private javax.swing.JRadioButton rBtnNu;
+    private javax.swing.JTextField textCMND;
+    private javax.swing.JTextField textMSSV;
+    private javax.swing.JTextField textName1;
     // End of variables declaration//GEN-END:variables
 }
