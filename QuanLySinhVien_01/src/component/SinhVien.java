@@ -29,6 +29,13 @@ public class SinhVien {
         this.CMND = _CMND;
     }
     
+    public SinhVien(String _MSSV, String _hoTen, String _CMND){
+        this.MSSV = _MSSV;
+        this.hoTen = _hoTen;
+        this.gioiTinh = -1;
+        this.CMND = _CMND;
+    }
+    
     public String getMSSV(){
         return this.MSSV;
     }
@@ -49,7 +56,7 @@ public class SinhVien {
         return this.gioiTinh;
     }
     
-    public void setName(int sex) {
+    public void setGT(int sex) {
         this.gioiTinh = sex;
     }
     

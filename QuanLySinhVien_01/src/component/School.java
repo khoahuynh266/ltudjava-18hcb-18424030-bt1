@@ -23,6 +23,10 @@ public class School {
     public int getsoLop(){
         return this.soLop;
     }
+
+    public void setSoLop(int soLop) {
+        this.soLop = soLop;
+    }
     
     public void setSchoolYear(int year){
         this.soLop = year;
@@ -40,7 +44,14 @@ public class School {
     }
     
     public ArrayList<LopHoc> getList(){
-        return this.listLopHoc;
+        return listLopHoc;
+    }
+    
+    public LopHoc getLop(int index) {
+        if ((index >= 0) && (index < listLopHoc.size() - 1)) {
+            return listLopHoc.get(index);
+        }
+        return null;
     }
 
     public LopHoc getLopHoc(String tenLop){
@@ -71,5 +82,18 @@ public class School {
             return listLopHoc.get(index);
         }
         return null;
+    }
+    
+    public LopHoc getClassRoom(String className) {
+        LopHoc result = new LopHoc();
+        if (!className.equalsIgnoreCase("")) {
+            for(LopHoc lh : this.listLopHoc) {
+                if(lh.checkClassName(className)) {
+                    result = lh;
+                }
+            }
+            
+        }
+        return result;
     }
 }

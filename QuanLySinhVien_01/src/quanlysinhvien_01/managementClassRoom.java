@@ -5,42 +5,89 @@
  */
 package quanlysinhvien_01;
 
-import java.util.*;
-import java.awt.Frame;
 import javax.swing.JFileChooser;
 
 import component.LopHoc;
 import component.School;
+import component.SinhVien;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import static jdk.management.resource.ResourceType.FILE_OPEN;
 
 /**
  *
  * @author Gogojungle
  */
-public class ManagementClassRoom extends javax.swing.JFrame {    
+public class managementClassRoom extends javax.swing.JFrame {
+
     private final int IMPORT_FILE = 1;
     private final int EXPORT_FILE = 2;
-    
+
+    addClass item;
+    addSV sv;
+    static School sc = new School();
+
     private String[] columName = {
         "STT", "MSSV", "Họ Tên", "Giới Tính", "CMND"
     };
-    
-        
-    /**
+
+     /**
      * Creates new form ManagementStudent
      */
-    public ManagementClassRoom() {
+    public managementClassRoom() {
         initComponents();
-        this.initLayout();
+        initLayout();
     }
-    
-    addClass item;
-    addSV sv;
-    
-    static School sc = new School();
-    
+
+    private void initLayout() {
+        if (sc.getsoLop() > 0) {
+            ArrayList<LopHoc> listLH = sc.getList();
+//            listLH = sc.getList();
+
+            DefaultComboBoxModel cbModel = new DefaultComboBoxModel();
+            DefaultTableModel tbModel = new DefaultTableModel();
+            tbModel.setColumnIdentifiers(columName);
+
+            int stt = 1;
+            for (LopHoc i : listLH) {
+            // add từng tên lớp vào comboBox
+                String name = i.getTenLop();
+                System.out.println(name);
+                cbModel.addElement(name);  
+                
+            // get danh sách sinh viên và hiển thị lên table    
+                ArrayList<SinhVien> listSV = new ArrayList<SinhVien>();
+                listSV = i.getListSinhVien();
+                for (SinhVien sv : listSV) {
+                    String[] info = new String[5];
+                    info[0] = String.valueOf(stt);
+                    info[1] = sv.getMSSV();
+                    info[2] = sv.getName();
+                    if (sv.getSex() == 0) {
+                        info[3] = "Nữ";
+                    } else {
+                        info[3] = "Nam";
+                    }
+                    info[4] = sv.getCMND();
+
+                    tbModel.addRow(info);
+                    stt++;
+                }
+            }
+            
+            classCombo.setModel(cbModel);
+            jsvTable.setModel(tbModel);
+        } else {
+            DefaultTableModel tbModel = new DefaultTableModel();
+            tbModel.setColumnIdentifiers(columName);
+            jsvTable.setModel(tbModel);
+        }
+       
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -52,7 +99,7 @@ public class ManagementClassRoom extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        svTable = new javax.swing.JTable();
+        jsvTable = new javax.swing.JTable();
         className = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         btnAddClass = new javax.swing.JButton();
@@ -66,7 +113,7 @@ public class ManagementClassRoom extends javax.swing.JFrame {
 
         jScrollPane1.setAutoscrolls(true);
 
-        svTable.setModel(new javax.swing.table.DefaultTableModel(
+        jsvTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -77,16 +124,11 @@ public class ManagementClassRoom extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(svTable);
+        jScrollPane1.setViewportView(jsvTable);
 
         className.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         className.setToolTipText("");
         className.setAlignmentY(0.0F);
-        className.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                classNameActionPerformed(evt);
-            }
-        });
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel1.setText("Quản Lý Lớp Học");
@@ -108,7 +150,12 @@ public class ManagementClassRoom extends javax.swing.JFrame {
             }
         });
 
-        classCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        classCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--" }));
+        classCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                classComboActionPerformed(evt);
+            }
+        });
 
         btnAddSVToClass.setBackground(new java.awt.Color(204, 204, 255));
         btnAddSVToClass.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -121,7 +168,6 @@ public class ManagementClassRoom extends javax.swing.JFrame {
 
         btnExport.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnExport.setText("Export");
-        btnExport.setActionCommand("Export");
         btnExport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExportActionPerformed(evt);
@@ -135,7 +181,6 @@ public class ManagementClassRoom extends javax.swing.JFrame {
             .addComponent(jScrollPane1)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(className, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(205, 205, 205)
@@ -145,9 +190,10 @@ public class ManagementClassRoom extends javax.swing.JFrame {
                         .addGap(69, 69, 69)
                         .addComponent(classCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(78, 78, 78)
-                        .addComponent(btnImport)
-                        .addGap(68, 68, 68)
-                        .addComponent(btnExport)))
+                        .addComponent(btnImport))
+                    .addComponent(className, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(68, 68, 68)
+                .addComponent(btnExport)
                 .addGap(0, 122, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -172,10 +218,6 @@ public class ManagementClassRoom extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void classNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_classNameActionPerformed
-
     private void btnImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportActionPerformed
         importExportFile("Choose file import", IMPORT_FILE);
     }//GEN-LAST:event_btnImportActionPerformed
@@ -188,19 +230,22 @@ public class ManagementClassRoom extends javax.swing.JFrame {
     private void btnAddSVToClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSVToClassActionPerformed
         sv = new addSV();
         sv.setVisible(true);
-            
+
     }//GEN-LAST:event_btnAddSVToClassActionPerformed
 
     private void btnExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportActionPerformed
         importExportFile("Export File", EXPORT_FILE);
     }//GEN-LAST:event_btnExportActionPerformed
 
-    
-    private void importExportFile(String title, int type){
+    private void classComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classComboActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_classComboActionPerformed
+
+    private void importExportFile(String title, int type) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle(title);
         int choose = -1;
-        switch(type){
+        switch (type) {
             case IMPORT_FILE:
                 choose = fileChooser.showOpenDialog(null);
                 break;
@@ -208,8 +253,8 @@ public class ManagementClassRoom extends javax.swing.JFrame {
                 choose = fileChooser.showSaveDialog(null);
                 break;
         }
-        
-        if(choose == JFileChooser.APPROVE_OPTION){
+
+        if (choose == JFileChooser.APPROVE_OPTION) {
             File f = fileChooser.getSelectedFile();
             switch (type) {
                 case IMPORT_FILE:
@@ -221,32 +266,62 @@ public class ManagementClassRoom extends javax.swing.JFrame {
             }
         }
     }
-    
-    private void readFile(File file){
-        
-    }
-    
-    private void writeFile(File file){
-        
-    }
-    
-    private void initLayout(){
-        if(sc.getsoLop()> 0){
-            ArrayList<LopHoc> listLH = new ArrayList<LopHoc>();
-            listLH.getClass();
-            
-           DefaultTableModel tbModel = new DefaultTableModel();
-           tbModel.setColumnIdentifiers(columName);
-                                  
-           svTable.setModel(tbModel);
+
+    // Đọc file được import
+    private void readFile(File file) {
+        try {
+            try (FileReader reader = new FileReader(file)) {
+                BufferedReader buffer = new BufferedReader(reader);
+
+                String line;
+                line = buffer.readLine();
+                //System.out.println("Tên Lớp: " + line);
+                String[] tenLop = line.split(",");
+                LopHoc lh = this.sc.getLopHoc(tenLop[0]);
+                boolean checkLopHoc = true;
+                if (lh.getTenLop().equals("")) {
+                    checkLopHoc = false;
+                    lh.setTenLop(tenLop[0]);
+                }
+                // get info SV
+                while ((line = buffer.readLine()) != null) {
+                    String[] info = line.split(",");
+                    SinhVien sv = new SinhVien();
+                    sv.setMSSV(info[1]);
+                    sv.setName(info[2]);
+                    sv.setCMND(info[4]);
+                    int gt = -1;
+
+                    if (info[3].equalsIgnoreCase("Nam")) {
+                        gt = 1;
+                    }
+                    if (info[3].equalsIgnoreCase("Nữ")) {
+                        gt = 0;
+                    }
+
+                    sv.setGT(gt);
+                    lh.themSinhVien(sv);
+                }
+                buffer.close();
+                if (checkLopHoc == true) {
+                    this.sc.setLopHoc(lh, line);
+                } else {
+                    this.sc.setSoLop(this.sc.getsoLop() + 1);
+                    this.sc.addClass(lh);
+                }
+
+            }
+            initLayout();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error to open file: " + e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        else {
-            DefaultTableModel tbModel = new DefaultTableModel();
-            tbModel.setColumnIdentifiers(columName);
-            svTable.setModel(tbModel);
-        }
+
     }
-    
+
+    private void writeFile(File file) {
+
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -264,21 +339,23 @@ public class ManagementClassRoom extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ManagementClassRoom.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(managementClassRoom.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ManagementClassRoom.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(managementClassRoom.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ManagementClassRoom.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(managementClassRoom.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ManagementClassRoom.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(managementClassRoom.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ManagementClassRoom().setVisible(true);
+                new managementClassRoom().setVisible(true);
             }
         });
     }
@@ -292,6 +369,6 @@ public class ManagementClassRoom extends javax.swing.JFrame {
     private javax.swing.JTextField className;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable svTable;
+    private javax.swing.JTable jsvTable;
     // End of variables declaration//GEN-END:variables
 }
