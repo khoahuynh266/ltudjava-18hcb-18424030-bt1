@@ -58,10 +58,10 @@ public class School {
         LopHoc rs = new LopHoc();
         if(!tenLop.equals("")){
             for(LopHoc lh : this.listLopHoc){
-                boolean checkName = lh.checkClassName(lh.getTenLop());
-                System.out.print(checkName);
+                boolean checkName = lh.checkClassName(tenLop);
                 if (checkName) {
                     rs = lh;
+//                    System.out.print("Lớp đã tồn tại");
                 }
             }
         }
@@ -77,23 +77,4 @@ public class School {
         }
     }
     
-    public LopHoc getClassRoom(int index) {
-        if ((index >= 0) && (index < this.listLopHoc.size() - 1)) {
-            return listLopHoc.get(index);
-        }
-        return null;
-    }
-    
-    public LopHoc getClassRoom(String className) {
-        LopHoc result = new LopHoc();
-        if (!className.equalsIgnoreCase("")) {
-            for(LopHoc lh : this.listLopHoc) {
-                if(lh.checkClassName(className)) {
-                    result = lh;
-                }
-            }
-            
-        }
-        return result;
-    }
 }

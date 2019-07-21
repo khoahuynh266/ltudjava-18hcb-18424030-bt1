@@ -9,13 +9,25 @@ package quanlysinhvien_01;
  *
  * @author Gogojungle
  */
-public class addSV extends javax.swing.JFrame {
 
+import component.LopHoc;
+import component.SinhVien;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import static quanlysinhvien_01.managementClassRoom.sc;
+
+public class addSV extends javax.swing.JFrame {
+       
     /**
      * Creates new form addSV
      */
     public addSV() {
         initComponents();
+        init();
     }
 
     /**
@@ -35,12 +47,13 @@ public class addSV extends javax.swing.JFrame {
         textMSSV = new javax.swing.JTextField();
         textCMND = new javax.swing.JTextField();
         rBtnNu = new javax.swing.JRadioButton();
-        rBtnNam1 = new javax.swing.JRadioButton();
-        textName1 = new javax.swing.JTextField();
-        btnOK = new javax.swing.JButton();
-        btnCancle1 = new javax.swing.JButton();
+        rBtnNam = new javax.swing.JRadioButton();
+        textName = new javax.swing.JTextField();
+        btnAdd = new javax.swing.JButton();
+        lblMSSV3 = new javax.swing.JLabel();
+        cbBoxClass = new javax.swing.JComboBox<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -51,7 +64,7 @@ public class addSV extends javax.swing.JFrame {
         jLabel2.setToolTipText("");
 
         lblMSSV.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lblMSSV.setText("MSSV:");
+        lblMSSV.setText("Lớp:");
 
         lblMSSV1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lblMSSV1.setText("CMND:");
@@ -71,86 +84,98 @@ public class addSV extends javax.swing.JFrame {
             }
         });
 
-        rBtnNam1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        rBtnNam1.setText("Nam");
+        rBtnNam.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        rBtnNam.setText("Nam");
 
-        textName1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        textName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
-        btnOK.setBackground(new java.awt.Color(153, 204, 255));
-        btnOK.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnOK.setText("OK");
+        btnAdd.setBackground(new java.awt.Color(153, 204, 255));
+        btnAdd.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
-        btnCancle1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnCancle1.setText("Hủy");
+        lblMSSV3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblMSSV3.setText("MSSV:");
+
+        cbBoxClass.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        cbBoxClass.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addComponent(lblMSSV1)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(84, 84, 84)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addComponent(lblMSSV)
-                                .addGap(39, 39, 39))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(40, 40, 40)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textMSSV, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textName1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textCMND, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblMSSV2)
-                        .addGap(51, 51, 51)
-                        .addComponent(rBtnNam1)
-                        .addGap(81, 81, 81)
-                        .addComponent(rBtnNu))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(81, 81, 81)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGap(16, 16, 16)
+                                .addComponent(lblMSSV1))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnCancle1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(71, 71, 71)
-                                .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel1))))
-                .addContainerGap(112, Short.MAX_VALUE))
+                                .addComponent(lblMSSV2)
+                                .addGap(51, 51, 51)
+                                .addComponent(rBtnNam)
+                                .addGap(81, 81, 81)
+                                .addComponent(rBtnNu))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblMSSV)
+                                    .addComponent(jLabel2)
+                                    .addComponent(lblMSSV3))
+                                .addGap(40, 40, 40)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textName, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(textCMND, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(cbBoxClass, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(textMSSV, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)))))))
+                .addGap(120, 120, 120))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(253, 253, 253))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addComponent(jLabel1)
-                .addGap(39, 39, 39)
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbBoxClass, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblMSSV))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(textMSSV, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblMSSV))
+                    .addComponent(lblMSSV3))
                 .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(textName1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textName, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblMSSV2)
                     .addComponent(rBtnNu)
-                    .addComponent(rBtnNam1))
+                    .addComponent(rBtnNam))
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblMSSV1)
                     .addComponent(textCMND, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCancle1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52))
+                .addGap(48, 48, 48)
+                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(69, 69, 69))
         );
+
+        lblMSSV.getAccessibleContext().setAccessibleName("Lớp");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -158,6 +183,38 @@ public class addSV extends javax.swing.JFrame {
     private void rBtnNuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rBtnNuActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rBtnNuActionPerformed
+
+    private void init(){
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        ArrayList<LopHoc> listClass = sc.getList();
+        
+        for(LopHoc item : listClass){
+            model.addElement(item.getTenLop());                    
+        }        
+        
+        cbBoxClass.setModel(model);
+    }
+    
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        String mssv = textMSSV.getText();
+        String hoTen = textName.getText();
+        String cmnd = textCMND.getText();        
+        int gt = -1;
+        if(rBtnNam.isSelected()){
+            gt = 1;
+        } else {
+            gt = 0;
+        } 
+        String nameClass = String.valueOf(cbBoxClass.getItemAt(cbBoxClass.getSelectedIndex()));
+        
+        if(mssv.equals("") || hoTen.equals("") || cmnd.equals("") || gt == -1 || nameClass.equals("")) {
+            JOptionPane.showMessageDialog(null, "!!! Vui Lòng Kiểm Tra Lại Thông Tin");
+        } else {
+            SinhVien sv = new SinhVien(mssv, hoTen, gt, cmnd);
+            sc.addSVToClass(nameClass, sv);
+        }
+        
+    }//GEN-LAST:event_btnAddActionPerformed
 
     /**
      * @param args the command line arguments
@@ -195,17 +252,18 @@ public class addSV extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancle1;
-    private javax.swing.JButton btnOK;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JComboBox<String> cbBoxClass;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lblMSSV;
     private javax.swing.JLabel lblMSSV1;
     private javax.swing.JLabel lblMSSV2;
-    private javax.swing.JRadioButton rBtnNam1;
+    private javax.swing.JLabel lblMSSV3;
+    private javax.swing.JRadioButton rBtnNam;
     private javax.swing.JRadioButton rBtnNu;
     private javax.swing.JTextField textCMND;
     private javax.swing.JTextField textMSSV;
-    private javax.swing.JTextField textName1;
+    private javax.swing.JTextField textName;
     // End of variables declaration//GEN-END:variables
 }

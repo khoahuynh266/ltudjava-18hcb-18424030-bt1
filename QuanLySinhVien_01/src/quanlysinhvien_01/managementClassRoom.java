@@ -56,7 +56,7 @@ public class managementClassRoom extends javax.swing.JFrame {
             for (LopHoc i : listLH) {
             // add từng tên lớp vào comboBox
                 String name = i.getTenLop();
-                System.out.println(name);
+//                System.out.println(name);
                 cbModel.addElement(name);  
                 
             // get danh sách sinh viên và hiển thị lên table    
@@ -109,7 +109,6 @@ public class managementClassRoom extends javax.swing.JFrame {
         btnExport = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setFocusableWindowState(false);
 
         jScrollPane1.setAutoscrolls(true);
 
@@ -275,41 +274,47 @@ public class managementClassRoom extends javax.swing.JFrame {
 
                 String line;
                 line = buffer.readLine();
-                //System.out.println("Tên Lớp: " + line);
+//                System.out.println("File import: " + line);
                 String[] tenLop = line.split(",");
                 LopHoc lh = this.sc.getLopHoc(tenLop[0]);
+                
+//                System.out.println("tenLop[0]: " + tenLop[0]);
+                
                 boolean checkLopHoc = true;
                 if (lh.getTenLop().equals("")) {
                     checkLopHoc = false;
                     lh.setTenLop(tenLop[0]);
                 }
-                // get info SV
-                while ((line = buffer.readLine()) != null) {
-                    String[] info = line.split(",");
-                    SinhVien sv = new SinhVien();
-                    sv.setMSSV(info[1]);
-                    sv.setName(info[2]);
-                    sv.setCMND(info[4]);
-                    int gt = -1;
-
-                    if (info[3].equalsIgnoreCase("Nam")) {
-                        gt = 1;
-                    }
-                    if (info[3].equalsIgnoreCase("Nữ")) {
-                        gt = 0;
-                    }
-
-                    sv.setGT(gt);
-                    lh.themSinhVien(sv);
-                }
-                buffer.close();
+                
                 if (checkLopHoc == true) {
                     this.sc.setLopHoc(lh, line);
+                    JOptionPane.showMessageDialog(null, "!!! Class Already Exists");                    
                 } else {
                     this.sc.setSoLop(this.sc.getsoLop() + 1);
                     this.sc.addClass(lh);
-                }
+                    
+                    // get info SV
+                    while ((line = buffer.readLine()) != null) {
+                        String[] info = line.split(",");
+                        SinhVien sv = new SinhVien();
+                        sv.setMSSV(info[1]);
+                        sv.setName(info[2]);
+                        sv.setCMND(info[4]);
+                        int gt = -1;
 
+                        if (info[3].equalsIgnoreCase("Nam")) {
+                            gt = 1;
+                        }
+                        if (info[3].equalsIgnoreCase("Nữ")) {
+                            gt = 0;
+                        }
+
+                        sv.setGT(gt);
+                        lh.themSinhVien(sv);
+                    }
+                }
+                
+                buffer.close();
             }
             initLayout();
         } catch (Exception e) {
