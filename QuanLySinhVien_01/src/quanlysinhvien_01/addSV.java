@@ -12,12 +12,11 @@ package quanlysinhvien_01;
 
 import component.LopHoc;
 import component.SinhVien;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.awt.event.KeyEvent;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import static quanlysinhvien_01.managementClassRoom.sc;
 
 public class addSV extends javax.swing.JFrame {
@@ -52,6 +51,7 @@ public class addSV extends javax.swing.JFrame {
         btnAdd = new javax.swing.JButton();
         lblMSSV3 = new javax.swing.JLabel();
         cbBoxClass = new javax.swing.JComboBox<>();
+        show_validate = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -73,8 +73,21 @@ public class addSV extends javax.swing.JFrame {
         lblMSSV2.setText("Giới tính:");
 
         textMSSV.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        textMSSV.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                textMSSVKeyTyped(evt);
+            }
+        });
 
         textCMND.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        textCMND.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                textCMNDKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                textCMNDKeyTyped(evt);
+            }
+        });
 
         rBtnNu.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         rBtnNu.setText("Nữ");
@@ -110,11 +123,27 @@ public class addSV extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1))
+                        .addContainerGap(20, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblMSSV)
+                            .addComponent(jLabel2)
+                            .addComponent(lblMSSV3))
+                        .addGap(40, 40, 40)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(textName, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(show_validate)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(cbBoxClass, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(textMSSV))
+                                .addGap(72, 72, 72)))))
+                .addGap(117, 117, 117))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(16, 16, 16)
@@ -126,23 +155,12 @@ public class addSV extends javax.swing.JFrame {
                                 .addGap(81, 81, 81)
                                 .addComponent(rBtnNu))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblMSSV)
-                                    .addComponent(jLabel2)
-                                    .addComponent(lblMSSV3))
-                                .addGap(40, 40, 40)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(textName, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(textCMND, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(cbBoxClass, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(textMSSV, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)))))))
-                .addGap(120, 120, 120))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(253, 253, 253))
+                                .addGap(112, 112, 112)
+                                .addComponent(textCMND, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(166, 166, 166)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,15 +171,17 @@ public class addSV extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbBoxClass, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblMSSV))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(textMSSV, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblMSSV3))
-                .addGap(49, 49, 49)
+                .addGap(26, 26, 26)
+                .addComponent(show_validate)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(textName, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addGap(41, 41, 41)
+                .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblMSSV2)
                     .addComponent(rBtnNu)
@@ -170,12 +190,13 @@ public class addSV extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblMSSV1)
                     .addComponent(textCMND, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(48, 48, 48)
+                .addGap(68, 68, 68)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(69, 69, 69))
+                .addGap(76, 76, 76))
         );
 
         lblMSSV.getAccessibleContext().setAccessibleName("Lớp");
+        cbBoxClass.setSelectedItem(null);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -198,7 +219,7 @@ public class addSV extends javax.swing.JFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         String mssv = textMSSV.getText();
         String hoTen = textName.getText();
-        String cmnd = textCMND.getText();        
+        String cmnd = textCMND.getText();  
         int gt = -1;
         if(rBtnNam.isSelected()){
             gt = 1;
@@ -207,14 +228,34 @@ public class addSV extends javax.swing.JFrame {
         } 
         String nameClass = String.valueOf(cbBoxClass.getItemAt(cbBoxClass.getSelectedIndex()));
         
-        if(mssv.equals("") || hoTen.equals("") || cmnd.equals("") || gt == -1 || nameClass.equals("")) {
-            JOptionPane.showMessageDialog(null, "!!! Vui Lòng Kiểm Tra Lại Thông Tin");
+        if(mssv.equals("") || hoTen.equals("") || cmnd.equals("") || gt == -1 || cbBoxClass.getSelectedIndex() < 0) {
+            JOptionPane.showMessageDialog(null, "!!! Vui Lòng Kiểm Tra Lại Thông Tin");                        
         } else {
-            SinhVien sv = new SinhVien(mssv, hoTen, gt, cmnd);
+            SinhVien sv = new SinhVien(mssv, hoTen, gt, cmnd);                        
             sc.addSVToClass(nameClass, sv);
-        }
-        
+            
+        }        
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void textCMNDKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textCMNDKeyPressed
+        // TODO add your handling code here:       
+    }//GEN-LAST:event_textCMNDKeyPressed
+
+    private void textCMNDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textCMNDKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if(!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || c == KeyEvent.VK_DELETE)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_textCMNDKeyTyped
+
+    private void textMSSVKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textMSSVKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if(!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || c == KeyEvent.VK_DELETE)){
+            evt.consume();
+        } 
+    }//GEN-LAST:event_textMSSVKeyTyped
 
     /**
      * @param args the command line arguments
@@ -262,6 +303,7 @@ public class addSV extends javax.swing.JFrame {
     private javax.swing.JLabel lblMSSV3;
     private javax.swing.JRadioButton rBtnNam;
     private javax.swing.JRadioButton rBtnNu;
+    private javax.swing.JLabel show_validate;
     private javax.swing.JTextField textCMND;
     private javax.swing.JTextField textMSSV;
     private javax.swing.JTextField textName;

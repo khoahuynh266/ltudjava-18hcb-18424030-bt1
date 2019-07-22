@@ -6,6 +6,7 @@
 package component;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
@@ -37,10 +38,10 @@ public class School {
     }
     
     public void addSVToClass(String lopHoc, SinhVien sv) {
-        for(LopHoc lh : this.listLopHoc){
+        for(LopHoc lh : listLopHoc){
             if(lh.checkClassName(lopHoc))
-                listLopHoc.add(lh);
-        }
+                lh.themSinhVien(sv);
+        }        
     }
     
     public ArrayList<LopHoc> getList(){
