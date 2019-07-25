@@ -5,29 +5,39 @@
  */
 package component;
 
-import component.MonHoc;
 import java.util.ArrayList;
 /**
  *
  * @author Gogojungle
  */
 public class ThoiKhoaBieu {
-    private String tenLop;
-    private ArrayList<MonHoc> listMonHoc = new ArrayList<MonHoc>();
+    private MonHoc monHoc;
+    private String phongHoc;
     
     public ThoiKhoaBieu(){
-        this.tenLop = "";
+        this.monHoc.setMaMH("");
+        this.monHoc.setTenMH("");
+        this.phongHoc = "";
     }
     
-    public ThoiKhoaBieu(String _tenLop){
-        this.tenLop = _tenLop;
+    public ThoiKhoaBieu(MonHoc _mh, String _ph){
+        this.monHoc = _mh;
+        this.phongHoc = _ph;
+    }
+     
+    public MonHoc getMH(){
+        return this.monHoc;
     }
     
-    public String getClassName(){
-        return this.tenLop;
+    public void setMH(MonHoc mh){
+        this.monHoc = mh;
     }
     
-    public void setClassName(String className){
-        this.tenLop = className;
+    public String getPH(){
+        return this.phongHoc;
+    }
+    
+    public void setPH(String phong){
+        this.phongHoc = phong;
     }
 }

@@ -9,15 +9,44 @@ package quanlysinhvien_01;
  *
  * @author Gogojungle
  */
+
+import component.LopHoc;
+import component.MonHoc;
+import component.School;
+import component.SinhVien;
+import component.ThoiKhoaBieu;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import static quanlysinhvien_01.managementClassRoom.sc;
+
 public class managementSchedule extends javax.swing.JFrame {
 
+    private final int IMPORT_FILE = 1;
+    private final int EXPORT_FILE = 2;
+    
+//    static managementClassRoom manageCR;
+    
+    static School sc = new School();
+    
     /**
      * Creates new form managementSchedule
      */
-    public managementSchedule() {
+    public managementSchedule() {        
         initComponents();
+//        manageCR = new managementClassRoom();
+//        manageCR.setVisible(false);
+//        this.manageCR.setVisible(false);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,8 +58,17 @@ public class managementSchedule extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tableTKB = new javax.swing.JTable();
+        panelInfo = new java.awt.Panel();
+        textScheduleClass = new javax.swing.JTextField();
+        btnExportTKB = new javax.swing.JButton();
+        btnImportTKB = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        cbBoxClass = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Thời Khóa Biểu");
 
         tableTKB.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -45,25 +83,209 @@ public class managementSchedule extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tableTKB);
 
+        textScheduleClass.setEditable(false);
+        textScheduleClass.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        textScheduleClass.setToolTipText("");
+        textScheduleClass.setAlignmentY(0.0F);
+
+        btnExportTKB.setBackground(new java.awt.Color(153, 204, 255));
+        btnExportTKB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnExportTKB.setText("Export");
+        btnExportTKB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportTKBActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelInfoLayout = new javax.swing.GroupLayout(panelInfo);
+        panelInfo.setLayout(panelInfoLayout);
+        panelInfoLayout.setHorizontalGroup(
+            panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelInfoLayout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addComponent(textScheduleClass, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addComponent(btnExportTKB, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53))
+        );
+        panelInfoLayout.setVerticalGroup(
+            panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelInfoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textScheduleClass, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExportTKB, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        btnImportTKB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnImportTKB.setText("Import");
+        btnImportTKB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImportTKBActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setText("Danh Sách Thời Khóa Biểu");
+
+        cbBoxClass.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setText("Lớp:");
+
+        jButton1.setBackground(new java.awt.Color(204, 204, 204));
+        jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton1.setText("Thoát");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(138, 138, 138)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(91, Short.MAX_VALUE))
+                .addGap(73, 73, 73)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(328, 328, 328)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(180, 180, 180)
+                        .addComponent(jButton1)
+                        .addGap(28, 28, 28))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addGap(65, 65, 65))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(panelInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(210, 210, 210)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cbBoxClass, 0, 167, Short.MAX_VALUE)
+                                .addGap(150, 150, 150)
+                                .addComponent(btnImportTKB, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(61, 61, 61)))
+                        .addGap(190, 190, 190))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton1)))
+                .addGap(51, 51, 51)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel2)
+                    .addComponent(cbBoxClass, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnImportTKB, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(56, 56, 56)
+                .addComponent(panelInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(57, 57, 57))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnExportTKBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportTKBActionPerformed
+//        importExportFile("Export File", EXPORT_FILE);
+    }//GEN-LAST:event_btnExportTKBActionPerformed
+
+    private void btnImportTKBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportTKBActionPerformed
+        // TODO add your handling code here:
+        importExportFile("Choose file import", IMPORT_FILE);
+    }//GEN-LAST:event_btnImportTKBActionPerformed
+    
+    private void initLayout(){
+        addDataForComboBoxClass();
+    }
+    
+    private void addDataForComboBoxClass(){
+        ArrayList<LopHoc> listLH = sc.getList();
+        DefaultComboBoxModel cbModel = new DefaultComboBoxModel();
+            
+        for (LopHoc i : listLH) {
+        // add từng tên lớp vào comboBox
+            String name = i.getTenLop();
+//          System.out.println(name);
+            cbModel.addElement(name);   
+        }          
+        cbBoxClass.setModel(cbModel);
+    }
+    
+    private void importExportFile(String title, int type) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle(title);
+        int choose = -1;
+        switch (type) {
+            case IMPORT_FILE:
+                choose = fileChooser.showOpenDialog(null);
+                break;
+            case EXPORT_FILE:
+                choose = fileChooser.showSaveDialog(null);
+                break;
+        }
+
+        if (choose == JFileChooser.APPROVE_OPTION) {
+            File f = fileChooser.getSelectedFile();
+            switch (type) {
+                case IMPORT_FILE:
+                    readFile(f);
+                    break;
+                case EXPORT_FILE:
+                    writeFile(f);
+                    break;
+            }
+        }
+    }
+    
+    private void readFile(File file) {
+        try {
+            try (FileReader reader = new FileReader(file)) {
+                BufferedReader buffer = new BufferedReader(reader);
+
+                String line;
+                line = buffer.readLine();
+//                System.out.println("File import: " + line);
+                String[] tenLop = line.split(",");
+                LopHoc lh = new LopHoc();
+                lh = this.sc.getLopHoc(tenLop[0]);
+//                System.out.println("tenLop[0]: " + tenLop[0]);
+                                                                 
+                    // get tkb
+                    while ((line = buffer.readLine()) != null) {
+                        String[] info = line.split(",");
+                        
+                        MonHoc monHoc = new MonHoc(info[0], info[1]);
+                        ThoiKhoaBieu tKB = new ThoiKhoaBieu(monHoc, info[2]);
+                        
+                        // Add TKB vào lớp học
+                        lh.addThoiKhoaBieu(tKB);
+                    }
+                
+                buffer.close();
+            }
+            initLayout();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error to open file: " + e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
+    private void writeFile(File file) {
+        try{              
+            
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(null, "Error to export file: " + e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+        }        
+    }
     /**
      * @param args the command line arguments
      */
@@ -100,7 +322,15 @@ public class managementSchedule extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnExportTKB;
+    private javax.swing.JButton btnImportTKB;
+    private javax.swing.JComboBox<String> cbBoxClass;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private java.awt.Panel panelInfo;
     private javax.swing.JTable tableTKB;
+    private javax.swing.JTextField textScheduleClass;
     // End of variables declaration//GEN-END:variables
 }
