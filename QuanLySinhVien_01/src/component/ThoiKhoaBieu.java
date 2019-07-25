@@ -5,10 +5,29 @@
  */
 package component;
 
+import component.MonHoc;
+import java.util.ArrayList;
 /**
  *
  * @author Gogojungle
  */
 public class ThoiKhoaBieu {
+    private String tenLop;
+    private ArrayList<MonHoc> listMonHoc = new ArrayList<MonHoc>();
     
+    public ThoiKhoaBieu(){
+        this.tenLop = "";
+    }
+    
+    public ThoiKhoaBieu(String _tenLop){
+        this.tenLop = _tenLop;
+    }
+    
+    public String getClassName(){
+        return this.tenLop;
+    }
+    
+    public void setClassName(String className){
+        this.tenLop = className;
+    }
 }

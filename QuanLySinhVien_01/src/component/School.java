@@ -6,7 +6,6 @@
 package component;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  *
@@ -76,6 +75,5 @@ public class School {
                 this.listLopHoc.set(_index, lh);
             }
         }
-    }
-    
+    }    
 }

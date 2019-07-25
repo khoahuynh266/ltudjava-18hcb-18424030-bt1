@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.awt.event.KeyEvent;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import static quanlysinhvien_01.managementClassRoom.sc;
 
 public class addSV extends javax.swing.JFrame {
@@ -122,10 +121,10 @@ public class addSV extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(20, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblMSSV)
                             .addComponent(jLabel2)
@@ -205,16 +204,27 @@ public class addSV extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_rBtnNuActionPerformed
 
-    private void init(){
+    private void init(){        
         DefaultComboBoxModel model = new DefaultComboBoxModel();
         ArrayList<LopHoc> listClass = sc.getList();
         
         for(LopHoc item : listClass){
             model.addElement(item.getTenLop());                    
         }        
-        
         cbBoxClass.setModel(model);
     }
+    
+//    private boolean validCheck(){
+//        boolean isValid = false;
+//        String mssv = textMSSV.getText();
+//        String hoTen = textName.getText();
+//        String cmnd = textCMND.getText(); 
+//        
+//        StringBuilder msgErr = new StringBuilder();
+//        
+//        
+//    }
+    
     
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         String mssv = textMSSV.getText();
@@ -230,11 +240,18 @@ public class addSV extends javax.swing.JFrame {
         
         if(mssv.equals("") || hoTen.equals("") || cmnd.equals("") || gt == -1 || cbBoxClass.getSelectedIndex() < 0) {
             JOptionPane.showMessageDialog(null, "!!! Vui Lòng Kiểm Tra Lại Thông Tin");                        
-        } else {
+        } 
+        else {
             SinhVien sv = new SinhVien(mssv, hoTen, gt, cmnd);                        
-            sc.addSVToClass(nameClass, sv);
+            sc.addSVToClass(nameClass, sv);            
+        } 
+        JOptionPane.showMessageDialog(null, "Thêm Sinh Viên Thành Công :)");
             
-        }        
+        textMSSV.setText("");
+        textName.setText("");
+        textCMND.setText("");
+        rBtnNam.setSelected(false);
+        rBtnNu.setSelected(false);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void textCMNDKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textCMNDKeyPressed

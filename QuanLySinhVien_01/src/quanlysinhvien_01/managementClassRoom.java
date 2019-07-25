@@ -11,14 +11,17 @@ import component.LopHoc;
 import component.School;
 import component.SinhVien;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
-
+import quanlysinhvien_01.managementSchedule;
 /**
  *
  * @author Gogojungle
@@ -31,13 +34,13 @@ public class managementClassRoom extends javax.swing.JFrame {
     addClass item;
     addSV sv;
     static School sc = new School();
-
+    managementSchedule tkb;
+    
     private String[] columName = {
         "STT", "MSSV", "Họ Tên", "Giới Tính", "CMND"
     };
 
-    DefaultTableModel tbModel = new DefaultTableModel();
-    
+       
      /**
      * Creates new form ManagementStudent
      */
@@ -47,50 +50,14 @@ public class managementClassRoom extends javax.swing.JFrame {
     }
 
     private void initLayout() {
+//        panelInfo.setVisible(false);
+btnExport.setVisible(false);
         if (sc.getsoLop() > 0) {
-            ArrayList<LopHoc> listLH = sc.getList();
-//            listLH = sc.getList();
-
-            DefaultComboBoxModel cbModel = new DefaultComboBoxModel();
-            
-            tbModel.setColumnIdentifiers(columName);
-
-            int stt = 1;
-            for (LopHoc i : listLH) {
-            // add từng tên lớp vào comboBox
-                String name = i.getTenLop();
-//                System.out.println(name);
-                cbModel.addElement(name);  
-                
-            // get danh sách sinh viên và hiển thị lên table    
-                ArrayList<SinhVien> listSV = new ArrayList<SinhVien>();
-                listSV = i.getListSinhVien();
-                for (SinhVien sv : listSV) {
-                    String[] info = new String[5];
-                    info[0] = String.valueOf(stt);
-                    info[1] = sv.getMSSV();
-                    info[2] = sv.getName();
-                    if (sv.getSex() == 0) {
-                        info[3] = "Nữ";
-                    } else {
-                        info[3] = "Nam";
-                    }
-                    info[4] = sv.getCMND();
-
-                    tbModel.addRow(info);
-                    stt++;
-                }
-            }
-            
-            classCombo.setModel(cbModel);
-            jsvTable.setModel(tbModel);
+            panelOption.setVisible(true);
+            addDataForComboBoxClass();
         } else {
-            DefaultTableModel tbModel = new DefaultTableModel();
-            tbModel.setColumnIdentifiers(columName);
-            jsvTable.setModel(tbModel);
-            
-        }
-      
+            panelOption.setVisible(false);
+        }      
     }
 
     /**
@@ -103,13 +70,9 @@ public class managementClassRoom extends javax.swing.JFrame {
     private void initComponents() {
 
         jFrame1 = new javax.swing.JFrame();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jsvTable = new javax.swing.JTable();
-        className = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         btnImport = new javax.swing.JButton();
         classCombo = new javax.swing.JComboBox<>();
-        btnExport = new javax.swing.JButton();
         panelOption = new java.awt.Panel();
         btnAddSVToClass = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -122,6 +85,12 @@ public class managementClassRoom extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
+        btnReload = new javax.swing.JButton();
+        panelInfo = new java.awt.Panel();
+        className = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jsvTable = new javax.swing.JTable();
+        btnExport = new javax.swing.JButton();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -135,30 +104,13 @@ public class managementClassRoom extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setAutoRequestFocus(false);
         setBackground(new java.awt.Color(255, 255, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
-        jScrollPane1.setAutoscrolls(true);
-
-        jsvTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jsvTable);
-
-        className.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        className.setToolTipText("");
-        className.setAlignmentY(0.0F);
+        setLocationByPlatform(true);
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        jLabel1.setText("Quản Lý Lớp Học");
+        jLabel1.setText("QUẢN LÝ ");
 
         btnImport.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnImport.setText("Import");
@@ -175,15 +127,8 @@ public class managementClassRoom extends javax.swing.JFrame {
             }
         });
 
-        btnExport.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnExport.setText("Export");
-        btnExport.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExportActionPerformed(evt);
-            }
-        });
-
         panelOption.setBackground(new java.awt.Color(204, 204, 204));
+        panelOption.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         btnAddSVToClass.setBackground(new java.awt.Color(153, 204, 255));
         btnAddSVToClass.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -197,7 +142,7 @@ public class managementClassRoom extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel3.setText("Thời Khóa Biểu");
 
-        btnAddTKB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnAddTKB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnAddTKB.setText("Import");
         btnAddTKB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,7 +150,7 @@ public class managementClassRoom extends javax.swing.JFrame {
             }
         });
 
-        btnTKB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnTKB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnTKB.setText("Xem TKB");
         btnTKB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -216,7 +161,7 @@ public class managementClassRoom extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel4.setText("Điểm");
 
-        btnAddDiem.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnAddDiem.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnAddDiem.setText("Import");
         btnAddDiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -306,59 +251,126 @@ public class managementClassRoom extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Danh Sách Lớp:");
 
+        btnReload.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnReload.setText("Reload");
+        btnReload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReloadActionPerformed(evt);
+            }
+        });
+
+        className.setEditable(false);
+        className.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        className.setToolTipText("");
+        className.setAlignmentY(0.0F);
+
+        jScrollPane1.setAutoscrolls(true);
+
+        jsvTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jsvTable.setAutoscrolls(false);
+        jsvTable.setColumnSelectionAllowed(true);
+        jsvTable.setFocusable(false);
+        jScrollPane1.setViewportView(jsvTable);
+
+        btnExport.setBackground(new java.awt.Color(153, 204, 255));
+        btnExport.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnExport.setText("Export");
+        btnExport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelInfoLayout = new javax.swing.GroupLayout(panelInfo);
+        panelInfo.setLayout(panelInfoLayout);
+        panelInfoLayout.setHorizontalGroup(
+            panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelInfoLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(panelInfoLayout.createSequentialGroup()
+                .addGap(390, 390, 390)
+                .addComponent(className, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 328, Short.MAX_VALUE)
+                .addComponent(btnExport)
+                .addGap(55, 55, 55))
+        );
+        panelInfoLayout.setVerticalGroup(
+            panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelInfoLayout.createSequentialGroup()
+                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelInfoLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(className, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelInfoLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(btnExport, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        btnExport.getAccessibleContext().setAccessibleName("");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnImport)
+                .addGap(229, 229, 229)
+                .addComponent(jLabel2)
+                .addGap(26, 26, 26)
+                .addComponent(classCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(219, 219, 219)
+                .addComponent(btnReload)
+                .addGap(381, 381, 381))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 184, Short.MAX_VALUE)
+                .addComponent(panelInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(188, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panelOption, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(287, 287, 287))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(className, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(389, 389, 389)
-                        .addComponent(btnImport)
-                        .addGap(101, 101, 101)
-                        .addComponent(jLabel2)
-                        .addGap(26, 26, 26)
-                        .addComponent(classCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(131, 131, 131)
-                        .addComponent(btnExport))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(223, 223, 223)
-                        .addComponent(panelOption, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(318, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnImport)
-                    .addComponent(classCombo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExport)
-                    .addComponent(jLabel2))
-                .addGap(75, 75, 75)
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnImport, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(classCombo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnReload)))
+                .addGap(89, 89, 89)
                 .addComponent(panelOption, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59)
-                .addComponent(className, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
         btnImport.getAccessibleContext().setAccessibleName("");
         classCombo.getAccessibleContext().setAccessibleName("");
-        btnExport.getAccessibleContext().setAccessibleName("");
         jLabel2.getAccessibleContext().setAccessibleName("");
 
         pack();
@@ -373,7 +385,7 @@ public class managementClassRoom extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExportActionPerformed
 
     private void classComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classComboActionPerformed
-        // TODO add your handling code here:
+        addDataForTableListSV();
     }//GEN-LAST:event_classComboActionPerformed
 
     private void btnAddDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDiemActionPerformed
@@ -392,6 +404,77 @@ public class managementClassRoom extends javax.swing.JFrame {
         sv = new addSV();
         sv.setVisible(true);
     }//GEN-LAST:event_btnAddSVToClassActionPerformed
+
+    private void addDataForComboBoxClass(){
+        ArrayList<LopHoc> listLH = sc.getList();
+        DefaultComboBoxModel cbModel = new DefaultComboBoxModel();
+            
+        for (LopHoc i : listLH) {
+        // add từng tên lớp vào comboBox
+            String name = i.getTenLop();
+//          System.out.println(name);
+            cbModel.addElement(name);   
+        }          
+        classCombo.setModel(cbModel);
+    }
+    
+    private String getClassNameInComboBox(){
+        String result = classCombo.getSelectedItem().toString();
+        
+        return result;
+    }
+    
+    private void addDataForTableListSV(){
+        
+        String select = getClassNameInComboBox();
+//        System.out.println("Select: " + select);
+        className.setText("DANH SÁCH SINH VIÊN:  " + select);  
+          
+        ArrayList<LopHoc> listLH = sc.getList(); 
+        DefaultTableModel tbModel = new DefaultTableModel();
+        
+        int stt = 1;
+        
+        for (LopHoc i : listLH) {
+            if(select.equalsIgnoreCase(i.getTenLop())){
+                btnExport.setVisible(true);
+                tbModel.setColumnIdentifiers(columName);
+                                                
+                // get danh sách sinh viên và hiển thị lên table    
+                ArrayList<SinhVien> listSV = new ArrayList<SinhVien>();
+                listSV = i.getListSinhVien();
+                for (SinhVien sv : listSV) {
+                    
+//                    System.out.println(sv.getMSSV() + " " + sv.getName());
+                    
+                    String[] info = new String[5];
+                    info[0] = String.valueOf(stt);
+                    info[1] = sv.getMSSV();
+                    info[2] = sv.getName();
+                    if (sv.getSex() == 0) {
+                        info[3] = "Nữ";
+                    } else {
+                        info[3] = "Nam";
+                    }
+                    info[4] = sv.getCMND();
+
+                    tbModel.addRow(info);
+                    stt++;
+                }
+                jsvTable.setModel(tbModel);
+            } 
+            else{
+                btnExport.setVisible(false);
+//                DefaultTableModel tbModel = new DefaultTableModel();
+                tbModel.setColumnIdentifiers(columName);
+                jsvTable.setModel(tbModel);
+            }            
+        }
+    }
+    
+    private void btnReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadActionPerformed
+        addDataForTableListSV();        
+    }//GEN-LAST:event_btnReloadActionPerformed
 
     private void importExportFile(String title, int type) {
         JFileChooser fileChooser = new JFileChooser();
@@ -418,7 +501,8 @@ public class managementClassRoom extends javax.swing.JFrame {
             }
         }
     }
-
+           
+    
     // Đọc file được import
     private void readFile(File file) {
         try {
@@ -449,6 +533,7 @@ public class managementClassRoom extends javax.swing.JFrame {
                     // get info SV
                     while ((line = buffer.readLine()) != null) {
                         String[] info = line.split(",");
+                        
                         SinhVien sv = new SinhVien();
                         sv.setMSSV(info[1]);
                         sv.setName(info[2]);
@@ -465,6 +550,7 @@ public class managementClassRoom extends javax.swing.JFrame {
                         sv.setGT(gt);
                         lh.themSinhVien(sv);
                     }
+                    
                 }
                 
                 buffer.close();
@@ -477,7 +563,61 @@ public class managementClassRoom extends javax.swing.JFrame {
     }
 
     private void writeFile(File file) {
-
+        try{            
+            file.createNewFile();
+            FileOutputStream fos = new FileOutputStream(file);
+            
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos, StandardCharsets.UTF_8));
+                        
+            String tenLop = getClassNameInComboBox();
+            LopHoc lop = sc.getLopHoc(tenLop);
+            
+            writer.append(tenLop);
+            writer.append('\n');
+            
+            writer.append("STT,");
+            writer.append(columName[1]);
+            writer.append(",");
+            writer.append(columName[2]);
+            writer.append(",");
+            writer.append(columName[3]);
+            writer.append(",");
+            writer.append(columName[4]);
+            writer.append('\n');
+            
+            
+            ArrayList<SinhVien> listStudent = new ArrayList<SinhVien>();
+            listStudent = lop.getListSinhVien();
+            
+            if (listStudent.size() > 0) {
+                int stt = 1;
+                // Lấy danh sách học sinh trong lớp
+                for (SinhVien sv : listStudent) {
+                    writer.append(Integer.toString(stt) + ',');                    
+                    writer.append(sv.getMSSV());
+                    writer.append(',');
+                    writer.append(sv.getName());
+                    writer.append(',');
+                    if (sv.getSex() == 1) {
+                        writer.append("Nam");
+                    } else {
+                        writer.append("Nữ");
+                    }
+                    writer.append(',');
+                    writer.append(sv.getCMND());
+                    writer.append('\n');
+                    
+                    stt++;
+                }
+                
+            }
+            writer.close();
+            
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(null, "Error to export file: " + e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        
     }
 
     /**
@@ -525,6 +665,7 @@ public class managementClassRoom extends javax.swing.JFrame {
     private javax.swing.JButton btnAddTKB;
     private javax.swing.JButton btnExport;
     private javax.swing.JButton btnImport;
+    private javax.swing.JButton btnReload;
     private javax.swing.JButton btnTKB;
     private javax.swing.JComboBox<String> classCombo;
     private javax.swing.JTextField className;
@@ -538,7 +679,8 @@ public class managementClassRoom extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    public javax.swing.JTable jsvTable;
+    private javax.swing.JTable jsvTable;
+    private java.awt.Panel panelInfo;
     private static java.awt.Panel panelOption;
     // End of variables declaration//GEN-END:variables
 }

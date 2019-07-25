@@ -33,7 +33,7 @@ public class LopHoc {
     
     public void themSinhVien(SinhVien sv){
         listSinhVien.add(sv);
-        System.out.println("Size: " + listSinhVien.size());
+//        System.out.println("Size: " + listSinhVien.size());
     }
     
     public boolean checkClassName(String name){
