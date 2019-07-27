@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class School {
     private int soLop;
     private ArrayList<LopHoc> listLopHoc = new ArrayList<LopHoc>();
-    private ArrayList<Lop_MonHoc> listLopMonHoc = new ArrayList<>();
+//    private ArrayList<Lop_MonHoc> listLopMonHoc = new ArrayList<>();
         
     public School() {
         this.soLop = 0;
@@ -77,33 +77,34 @@ public class School {
         }
     }    
     
-    public ArrayList<Lop_MonHoc> getListMHClass(){
-        return this.listLopMonHoc;
-    }
-    
-    public void setMonHocClass(ArrayList<Lop_MonHoc> target){
-        this.listLopMonHoc = target;
-    }
-    
-    public Lop_MonHoc getLopMonHoc(String tenLop, String maMH){
-        Lop_MonHoc result = new Lop_MonHoc();
         
-        if(this.listLopMonHoc.size() > 0){
-            for(Lop_MonHoc item : this.listLopMonHoc){
-                if(item.isExists(tenLop, maMH))
-                    result = item;
-            }
-        }
-        return result;
-    }
-    
-    public void setLopMonHoc(String tenLop, String maMH, Lop_MonHoc _target){
-        for(Lop_MonHoc item : this.listLopMonHoc){
-            if(item.isExists(tenLop, maMH)){
-                int index = this.listLopMonHoc.indexOf(item);
-                this.listLopMonHoc.set(index, _target);
-            }
-        }
-    }
+//    public ArrayList<Lop_MonHoc> getListMHClass(){
+//        return this.listLopMonHoc;
+//    }
+//    
+//    public void setMonHocClass(ArrayList<Lop_MonHoc> target){
+//        this.listLopMonHoc = target;
+//    }
+//    
+//    public Lop_MonHoc getLopMonHoc(String tenLop, String maMH){
+//        Lop_MonHoc result = new Lop_MonHoc();
+//        
+//        if(this.listLopMonHoc.size() > 0){
+//            for(Lop_MonHoc item : this.listLopMonHoc){
+//                if(item.isExists(tenLop, maMH))
+//                    result = item;
+//            }
+//        }
+//        return result;
+//    }
+//    
+//    public void setLopMonHoc(String tenLop, String maMH, Lop_MonHoc _target){
+//        for(Lop_MonHoc item : this.listLopMonHoc){
+//            if(item.isExists(tenLop, maMH)){
+//                int index = this.listLopMonHoc.indexOf(item);
+//                this.listLopMonHoc.set(index, _target);
+//            }
+//        }
+//    }
 }
   

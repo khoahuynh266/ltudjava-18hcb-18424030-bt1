@@ -66,5 +66,5 @@ public class SinhVien {
 
     public void setCMND(String CMND) {
         this.CMND = CMND;
-    }
+    }    
 }

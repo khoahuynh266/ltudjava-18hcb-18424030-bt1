@@ -13,7 +13,6 @@ package quanlysinhvien_01;
 import component.LopHoc;
 import component.MonHoc;
 import component.School;
-import component.SinhVien;
 import component.ThoiKhoaBieu;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -26,25 +25,38 @@ import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import static quanlysinhvien_01.managementClassRoom.sc;
 
 public class managementSchedule extends javax.swing.JFrame {
 
+    private String className = "";
     private final int IMPORT_FILE = 1;
     private final int EXPORT_FILE = 2;
     
+    private String[] columnNames = {
+        "STT", "Mã môn", "Tên môn", "Phòng học"
+    };
+    
 //    static managementClassRoom manageCR;
-    
-    static School sc = new School();
-    
+    managementClassRoom manageCR;
     /**
      * Creates new form managementSchedule
      */
-    public managementSchedule() {        
+    public managementSchedule() {
+//        this.manageCR.setVisible(false);
         initComponents();
+        initLayout();
 //        manageCR = new managementClassRoom();
 //        manageCR.setVisible(false);
-//        this.manageCR.setVisible(false);
+        
+    }
+    
+    public managementSchedule(String className){
+        this.className = className;
+        initComponents();
+        initLayout();
+        this.manageCR.setVisible(false);
     }
     
     /**
@@ -66,9 +78,12 @@ public class managementSchedule extends javax.swing.JFrame {
         cbBoxClass = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        lableClass = new javax.swing.JLabel();
+        lableNotify = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Thời Khóa Biểu");
+        setFocusCycleRoot(false);
 
         tableTKB.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -127,16 +142,20 @@ public class managementSchedule extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel1.setText("Danh Sách Thời Khóa Biểu");
-
-        cbBoxClass.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jLabel1.setText("Thời Khóa Biểu");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setText("Lớp:");
+        jLabel2.setText("Môn Học:");
 
         jButton1.setBackground(new java.awt.Color(204, 204, 204));
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton1.setText("Thoát");
+
+        lableClass.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+
+        lableNotify.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lableNotify.setForeground(new java.awt.Color(255, 0, 0));
+        lableNotify.setText("jLabel3");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -146,12 +165,6 @@ public class managementSchedule extends javax.swing.JFrame {
                 .addGap(73, 73, 73)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(328, 328, 328)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(180, 180, 180)
-                        .addComponent(jButton1)
-                        .addGap(28, 28, 28))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane1)
                         .addGap(65, 65, 65))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -159,36 +172,53 @@ public class managementSchedule extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(panelInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(210, 210, 210)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(228, 228, 228)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cbBoxClass, 0, 167, Short.MAX_VALUE)
-                                .addGap(150, 150, 150)
+                                .addComponent(cbBoxClass, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(95, 95, 95)
                                 .addComponent(btnImportTKB, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(61, 61, 61)))
-                        .addGap(190, 190, 190))))
+                        .addGap(190, 190, 190))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(328, 328, 328)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(lableNotify, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(578, 578, 578))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lableClass, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton1)
+                                .addGap(28, 28, 28))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton1)))
-                .addGap(51, 51, 51)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lableClass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(18, 18, 18)
+                .addComponent(lableNotify)
+                .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel2)
                     .addComponent(cbBoxClass, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnImportTKB, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(56, 56, 56)
+                .addGap(57, 57, 57)
                 .addComponent(panelInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         pack();
@@ -208,16 +238,49 @@ public class managementSchedule extends javax.swing.JFrame {
     }
     
     private void addDataForComboBoxClass(){
+        manageCR = new managementClassRoom();
+//        System.out.println("Class Name:  " + className);
+        lableClass.setText(className);
+        
         ArrayList<LopHoc> listLH = sc.getList();
-        DefaultComboBoxModel cbModel = new DefaultComboBoxModel();
-            
-        for (LopHoc i : listLH) {
-        // add từng tên lớp vào comboBox
-            String name = i.getTenLop();
-//          System.out.println(name);
-            cbModel.addElement(name);   
+//        System.out.println(listLH.size());
+        DefaultComboBoxModel cbBox = new DefaultComboBoxModel();
+        DefaultTableModel tblTKB = new DefaultTableModel();
+        
+        for (LopHoc i : listLH) {                   
+            ArrayList<ThoiKhoaBieu> listSchedule = i.getTKB();
+            if(listSchedule.size() > 0){
+                lableNotify.setVisible(false);
+                tblTKB.setColumnIdentifiers(columnNames);
+                int stt = 1;
+                for(ThoiKhoaBieu item : listSchedule){
+                    
+                    String[] info = new String[4];
+                    info[0] = String.valueOf(stt);
+                    info[1] = item.getMH().getMaMH();
+                    info[2] = item.getMH().getTenMH();
+                    info[3] = item.getPH();
+                    
+//                    System.out.println("Mã MH: " + item.getMH().getMaMH());
+
+                    cbBox.addElement(item.getMH().getMaMH()); // add từng mã môn vào comboBox
+                    tblTKB.addRow(info);
+                    stt++;
+                }                
+                tableTKB.setModel(tblTKB);
+                cbBoxClass.setModel(cbBox);
+            } else {
+                lableNotify.setText("Chưa Có Thời Khóa Biểu!!!!");
+                tblTKB.setColumnIdentifiers(columnNames);
+                tableTKB.setModel(tblTKB);
+            }           
         }          
-        cbBoxClass.setModel(cbModel);
+//        cbBoxClass.setModel(cbBox);
+    }
+    
+    private void addDataTableSchedule(){
+        
+                  
     }
     
     private void importExportFile(String title, int type) {
@@ -256,7 +319,7 @@ public class managementSchedule extends javax.swing.JFrame {
 //                System.out.println("File import: " + line);
                 String[] tenLop = line.split(",");
                 LopHoc lh = new LopHoc();
-                lh = this.sc.getLopHoc(tenLop[0]);
+                lh = sc.getLopHoc(tenLop[0]);
 //                System.out.println("tenLop[0]: " + tenLop[0]);
                                                                  
                     // get tkb
@@ -329,6 +392,8 @@ public class managementSchedule extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lableClass;
+    private javax.swing.JLabel lableNotify;
     private java.awt.Panel panelInfo;
     private javax.swing.JTable tableTKB;
     private javax.swing.JTextField textScheduleClass;
