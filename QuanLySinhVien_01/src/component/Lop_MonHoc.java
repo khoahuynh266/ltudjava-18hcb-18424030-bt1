@@ -5,6 +5,7 @@
  */
 package component;
 
+import java.util.ArrayList;
 /**
  *
  * @author Gogojungle
@@ -12,6 +13,7 @@ package component;
 public class Lop_MonHoc {
     private String tenLop;
     private String maMonHoc;
+    private ArrayList<SinhVien> listSV = new ArrayList<SinhVien>();
     
     public String getClassName(){
         return this.tenLop;
@@ -29,10 +31,22 @@ public class Lop_MonHoc {
         this.maMonHoc = id;
     }
     
+    public ArrayList<SinhVien> getListSV() {
+        return listSV;
+    }
+
+    public void setListSV(ArrayList<SinhVien> list) {
+        this.listSV = (ArrayList<SinhVien>) list.clone();
+    }
+    
     public boolean isExists(String name, String id) {
         if (this.tenLop.equalsIgnoreCase(name) && this.maMonHoc.equalsIgnoreCase(id)) {
             return true;
         }
         return false;
+    }
+    
+    public void addSV(SinhVien sv){
+        this.listSV.add(sv);
     }
 }

@@ -12,6 +12,7 @@ package quanlysinhvien_01;
 
 import component.LopHoc;
 import component.SinhVien;
+import component.Lop_MonHoc;
 import java.util.ArrayList;
 import java.awt.event.KeyEvent;
 import javax.swing.DefaultComboBoxModel;
@@ -24,11 +25,28 @@ public class addSV extends javax.swing.JFrame {
     /**
      * Creates new form addSV
      */
+    
+    private String className = "";
+    private String idSubject = "";
+    
     public addSV() {
         initComponents();
         init();
     }
 
+    public addSV(String lop) {
+        this.className = lop;
+        initComponents();
+        init();
+    }
+    
+    public addSV(String lop, String idMH) {
+        this.className = lop;
+        this.idSubject = idMH;
+        initComponents();
+        init();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -209,40 +227,74 @@ public class addSV extends javax.swing.JFrame {
         DefaultComboBoxModel model = new DefaultComboBoxModel();
         ArrayList<LopHoc> listClass = sc.getList();
         
-        for(LopHoc item : listClass){
-            model.addElement(item.getTenLop());                    
-        }        
+//        for(LopHoc item : listClass){
+//            model.addElement(item.getTenLop());                    
+//        }        
+//        cbBoxClass.setModel(model);
+        
+        if (this.idSubject.equals("")) {
+            model.addElement(this.className);
+        } else {
+            model.addElement(this.className + '-' + this.idSubject);
+        }
         cbBoxClass.setModel(model);
     }
     
     private boolean validCheck(){
         boolean isValid = false;
+        StringBuilder msgErr = new StringBuilder();
+        
         String mssv = textMSSV.getText();
         String hoTen = textName.getText();
         String cmnd = textCMND.getText();
-        int gt = -1;
-        String lopHoc = String.valueOf(cbBoxClass.getItemAt(cbBoxClass.getSelectedIndex()));
-//        
-//        LopHoc lh = sc.getLopHoc(lopHoc);
-//        
-//        
-//        for(SinhVien sv : lh.getListSinhVien()){
-//            if(mssv.equalsIgnoreCase(sv.getMSSV())){
-//                JOptionPane.showMessageDialog(null, "!!! Mã số sinh viên đã tồn tại!!!");
-////                isValid = true;
-//            }
-//            else if(cmnd.equalsIgnoreCase(sv.getCMND())){
-//                JOptionPane.showMessageDialog(null, "!!! Số CMND không được trùng !!!");
-////                isValid = true;
-//            }  
-////            isValid = false;
-//        }
-//        if(mssv.equals("") || hoTen.equals("") || cmnd.equals("") || gt == -1 || lopHoc.equals("---")) {
-//            isValid = true;   
-////            JOptionPane.showMessageDialog(null, "!!! Vui Lòng Kiểm Tra Lại Thông Tin");                        
-//        }
+        
+        if (this.idSubject.equals("")) {
+            LopHoc lh = sc.getLopHoc(this.className);
+            for (SinhVien sv : lh.getListSinhVien()) {
+                if (sv.isExistsMSSV(mssv)) {
+                    msgErr.append("MSSV đã tồn tại.");
+                    msgErr.append("\n");
+                }
+            }
+        } else {
+            Lop_MonHoc lop_mh = sc.getLopMonHoc(this.className, this.idSubject);
+            for (SinhVien sv : lop_mh.getListSV()) {
+                if (sv.isExistsMSSV(mssv)) {
+                    msgErr.append("MSSV đã tồn tại.");
+                    msgErr.append("\n");
+                }
+            }
+        }
+        
+        if (mssv.equals("")) {
+            isValid = true;
+            msgErr.append("MSSV không thể trống");
+            msgErr.append("\n");
+        }
+
+        if (hoTen.equals("")) {
+            isValid = true;
+            msgErr.append("Tên không thể trống");
+            msgErr.append("\n");
+        }
+
+        if (cmnd.equals("")) {
+            isValid = true;
+            msgErr.append("CMND không thể trống");
+            msgErr.append("\n");
+        }
+
+        if (rBtnNam.isSelected() == false && rBtnNu.isSelected() == false) {
+            isValid = true;
+            msgErr.append("Vui lòng chọn giới tính");
+            msgErr.append("\n");
+        }
+
+        if (isValid == true) {
+            JOptionPane.showMessageDialog(null, msgErr, "Error", JOptionPane.ERROR_MESSAGE);
+        }
                 
-        return isValid;      
+        return isValid;  
     }
         
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
@@ -254,25 +306,29 @@ public class addSV extends javax.swing.JFrame {
             gt = 1;
         } else {
             gt = 0;
-        } 
-        String nameClass = String.valueOf(cbBoxClass.getItemAt(cbBoxClass.getSelectedIndex()));
-        LopHoc lh = sc.getLopHoc(nameClass);
+        }
         
-        if(mssv.equals("") || hoTen.equals("") || cmnd.equals("") || gt == -1) {
-            JOptionPane.showMessageDialog(null, "!!! Vui Lòng Kiểm Tra Lại Thông Tin");                        
-        }        
-        else{        
-            System.out.println(cbBoxClass.getSelectedIndex());
-            SinhVien sv = new SinhVien(mssv, hoTen, gt, cmnd);                        
-            sc.addSVToClass(nameClass, sv);
-            JOptionPane.showMessageDialog(null, "Thêm Sinh Viên Thành Công :)");
+        boolean isCheck = validCheck();
+        if(!isCheck){
+            String nameClass = String.valueOf(cbBoxClass.getItemAt(cbBoxClass.getSelectedIndex()));
+            SinhVien sv = new SinhVien(mssv, hoTen, gt, cmnd);
+
+            if (this.idSubject.equals("")) {
+                sc.addSVToClass(nameClass, sv);
+                JOptionPane.showMessageDialog(null, "Thêm Sinh Viên Thành Công :)");
+            } else {
+                sc.addSVBySubject(this.className, this.idSubject, sv);
+                JOptionPane.showMessageDialog(null, "Thêm Sinh Viên Thành Công :)");
+            }
             textMSSV.setText("");
             textName.setText("");
             textCMND.setText("");
             rBtnNam.setSelected(false);
             rBtnNu.setSelected(false);
+        } else{
+            JOptionPane.showMessageDialog(null, "Kiểm Tra Lại Thông Tin !!");
         }
-            
+        
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void textCMNDKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textCMNDKeyPressed

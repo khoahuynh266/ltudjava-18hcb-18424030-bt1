@@ -66,5 +66,15 @@ public class SinhVien {
 
     public void setCMND(String CMND) {
         this.CMND = CMND;
-    }    
+    }
+    
+    public boolean isExistsMSSV(String mssv) {
+        boolean result = false;
+        
+        if(this.MSSV.equalsIgnoreCase(mssv)) {
+            result = true;
+        }
+        
+        return result;
+    }
 }

@@ -410,8 +410,14 @@ public class managementClassRoom extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTKBActionPerformed
 
     private void btnAddSVToClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSVToClassActionPerformed
-        sv = new addSV();
-        sv.setVisible(true);
+        String nameClass = String.valueOf(classCombo.getItemAt(classCombo.getSelectedIndex()));
+        if(!(nameClass.equals("--"))){
+            sv = new addSV(nameClass);
+            sv.setVisible(true);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "!!! Vui Lòng Chọn Lớp");
+        }
     }//GEN-LAST:event_btnAddSVToClassActionPerformed
 
     private void addDataForComboBoxClass(){
