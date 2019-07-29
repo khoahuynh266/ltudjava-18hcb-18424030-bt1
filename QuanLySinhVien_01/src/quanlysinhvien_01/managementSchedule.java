@@ -16,6 +16,7 @@ import component.MonHoc;
 import component.School;
 import component.SinhVien;
 import component.ThoiKhoaBieu;
+import component.DiemSinhVien;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -35,14 +36,17 @@ public class managementSchedule extends javax.swing.JFrame {
     private String className = "";
     private String idSubject = "";
     private final int IMPORT_FILE = 1;
-    private final int EXPORT_FILE = 2;
-    
+    private final int IMPORT_FILE_SCORE = 2;
     private String[] columnNames = {
         "STT", "Mã môn", "Tên môn", "Phòng học"
     };
     
     private final String[] columnNamesStudent = {
         "STT", "MSSV", "Họ tên", "Giới tính", "CMND"
+    };
+    
+    private final String[] columnNamesScore = {
+        "STT", "MSSV", "Họ tên", "Điểm GK", "Điểm CK", "Điểm khác", "Điểm tổng", "Kết quả"
     };
     
     addSV addSV;
@@ -87,8 +91,16 @@ public class managementSchedule extends javax.swing.JFrame {
         tableDSSVSubject = new javax.swing.JTable();
         lableDSSVLop = new javax.swing.JLabel();
         lableTKB = new javax.swing.JLabel();
-        btnAddSVBySubject = new javax.swing.JButton();
         btnReLoad = new javax.swing.JButton();
+        panelDiem = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        btnImportDiem = new javax.swing.JButton();
+        btnDiem = new javax.swing.JButton();
+        bntUpdate = new javax.swing.JButton();
+        panelDSSV = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        btnDSSV = new javax.swing.JButton();
+        btnAddSVBySubject = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Thời Khóa Biểu");
@@ -105,6 +117,7 @@ public class managementSchedule extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tableTKB.setEnabled(false);
         jScrollPane1.setViewportView(tableTKB);
 
         btnImportTKB.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -151,6 +164,7 @@ public class managementSchedule extends javax.swing.JFrame {
         jScrollPane2.setViewportView(tableDSSVSubject);
 
         lableDSSVLop.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lableDSSVLop.setForeground(new java.awt.Color(0, 153, 153));
         lableDSSVLop.setText("DSSV");
 
         javax.swing.GroupLayout panelListSVLayout = new javax.swing.GroupLayout(panelListSV);
@@ -170,15 +184,94 @@ public class managementSchedule extends javax.swing.JFrame {
         panelListSVLayout.setVerticalGroup(
             panelListSVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelListSVLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lableDSSVLop)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(160, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         lableTKB.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lableTKB.setText("TKB");
+
+        btnReLoad.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnReLoad.setText("Reload");
+        btnReLoad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReLoadActionPerformed(evt);
+            }
+        });
+
+        panelDiem.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel1.setText("Quản Lý Điểm");
+
+        btnImportDiem.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnImportDiem.setText("Import");
+        btnImportDiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImportDiemActionPerformed(evt);
+            }
+        });
+
+        btnDiem.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnDiem.setText("Bảng Điểm");
+        btnDiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDiemActionPerformed(evt);
+            }
+        });
+
+        bntUpdate.setText("Cập Nhật");
+
+        javax.swing.GroupLayout panelDiemLayout = new javax.swing.GroupLayout(panelDiem);
+        panelDiem.setLayout(panelDiemLayout);
+        panelDiemLayout.setHorizontalGroup(
+            panelDiemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDiemLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelDiemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelDiemLayout.createSequentialGroup()
+                        .addComponent(btnImportDiem, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDiem))
+                    .addGroup(panelDiemLayout.createSequentialGroup()
+                        .addComponent(bntUpdate)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(panelDiemLayout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelDiemLayout.setVerticalGroup(
+            panelDiemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDiemLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelDiemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnImportDiem)
+                    .addComponent(btnDiem))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(bntUpdate)
+                .addContainerGap())
+        );
+
+        panelDSSV.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel3.setText("Quản Lý DSSV");
+
+        btnDSSV.setText("DS Sinh Viên");
+        btnDSSV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDSSVActionPerformed(evt);
+            }
+        });
 
         btnAddSVBySubject.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnAddSVBySubject.setText("Thêm SV");
@@ -188,13 +281,32 @@ public class managementSchedule extends javax.swing.JFrame {
             }
         });
 
-        btnReLoad.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnReLoad.setText("Reload");
-        btnReLoad.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReLoadActionPerformed(evt);
-            }
-        });
+        javax.swing.GroupLayout panelDSSVLayout = new javax.swing.GroupLayout(panelDSSV);
+        panelDSSV.setLayout(panelDSSVLayout);
+        panelDSSVLayout.setHorizontalGroup(
+            panelDSSVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDSSVLayout.createSequentialGroup()
+                .addContainerGap(29, Short.MAX_VALUE)
+                .addGroup(panelDSSVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addGroup(panelDSSVLayout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addGroup(panelDSSVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnAddSVBySubject, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnDSSV))))
+                .addGap(26, 26, 26))
+        );
+        panelDSSVLayout.setVerticalGroup(
+            panelDSSVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDSSVLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addGap(12, 12, 12)
+                .addComponent(btnDSSV)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnAddSVBySubject)
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -211,7 +323,7 @@ public class managementSchedule extends javax.swing.JFrame {
                         .addComponent(jButton1)
                         .addGap(74, 74, 74))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1131, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1163, Short.MAX_VALUE)
                         .addGap(80, 80, 80))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(109, 109, 109)
@@ -224,14 +336,20 @@ public class managementSchedule extends javax.swing.JFrame {
                         .addComponent(lableNotify, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(cbBoxMHId, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnImportTKB, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48)
-                        .addComponent(btnAddSVBySubject)
-                        .addGap(33, 33, 33)
-                        .addComponent(btnReLoad)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 444, Short.MAX_VALUE)
+                                .addComponent(panelDSSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(29, 29, 29)
+                                .addComponent(panelDiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(29, 29, 29))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(cbBoxMHId, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnImportTKB, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(176, 176, 176)
+                                .addComponent(btnReLoad)))
                         .addGap(110, 110, 110))))
         );
         layout.setVerticalGroup(
@@ -239,7 +357,11 @@ public class managementSchedule extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton1)
-                .addGap(162, 162, 162)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panelDSSV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelDiem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lableTKB)
                     .addGroup(layout.createSequentialGroup()
@@ -247,7 +369,6 @@ public class managementSchedule extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addComponent(cbBoxMHId, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnImportTKB, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAddSVBySubject, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnReLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(lableNotify)))
@@ -255,10 +376,11 @@ public class managementSchedule extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(panelListSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnImportTKBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportTKBActionPerformed
@@ -274,7 +396,7 @@ public class managementSchedule extends javax.swing.JFrame {
 
     private void cbBoxMHIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbBoxMHIdActionPerformed
         // TODO add your handling code here:        
-        addDataTableSchedule();
+//        addDataTableSchedule();
     }//GEN-LAST:event_cbBoxMHIdActionPerformed
 
     private void btnAddSVBySubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSVBySubjectActionPerformed
@@ -290,11 +412,56 @@ public class managementSchedule extends javax.swing.JFrame {
 
     private void btnReLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReLoadActionPerformed
         // TODO add your handling code here:
-        addDataTableSchedule();        
+        addDataTable();        
     }//GEN-LAST:event_btnReLoadActionPerformed
+
+    private void btnDSSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDSSVActionPerformed
+        // TODO add your handling code here:
+        addDataTable();
+    }//GEN-LAST:event_btnDSSVActionPerformed
+
+    private void btnDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiemActionPerformed
+        // TODO add your handling code here:
+        lableDSSVLop.setVisible(false);
+        
+        DefaultTableModel table = new DefaultTableModel();
+       
+        String valueComboBox = cbBoxMHId.getSelectedItem().toString();        
+        Lop_MonHoc lop_MH = sc.getLopMonHoc(className, valueComboBox);
+        lableDSSVLop.setText("Danh sách điểm: " + className + " - " + valueComboBox);
+                table.setColumnIdentifiers(columnNamesScore);
+                ArrayList<DiemSinhVien> listDiem = lop_MH.getListDiem();
+                int stt = 1;
+                if(listDiem.size() > 0){
+                    for(DiemSinhVien item : listDiem){
+                        String[] rows = new String[8];
+                        rows[0] = String.valueOf(stt);
+                        rows[1] = item.getSV().getMSSV();
+                        rows[2] = item.getSV().getName();
+                        rows[3] = String.valueOf(item.getDiemGK());
+                        rows[4] = String.valueOf(item.getDiemCK());
+                        rows[5] = String.valueOf(item.getDiemKhac());
+                        rows[6] = String.valueOf(item.getDiemTong());
+                        rows[7] = item.xepLoai();
+                        
+                        table.addRow(rows);
+                        stt++;
+                    }
+                    tableDSSVSubject.setModel(table);
+                } else {
+                    JOptionPane.showMessageDialog(null, "!!! Chưa Có Bảng Điểm");
+                }
+    }//GEN-LAST:event_btnDiemActionPerformed
+
+    private void btnImportDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportDiemActionPerformed
+        // TODO add your handling code here:
+        importExportFile("Choose file import", IMPORT_FILE_SCORE);
+    }//GEN-LAST:event_btnImportDiemActionPerformed
     
     private void initLayout(){
         panelListSV.setVisible(false);
+        panelDSSV.setVisible(false);
+        panelDiem.setVisible(false);
         addDataForComboBoxClass();        
     }
     
@@ -309,7 +476,9 @@ public class managementSchedule extends javax.swing.JFrame {
         for (LopHoc i : listLH) {                   
             ArrayList<ThoiKhoaBieu> listSchedule = i.getTKB();
             if(listSchedule.size() > 0){
-                lableNotify.setVisible(false);                               
+                lableNotify.setVisible(false);
+                panelDSSV.setVisible(true);
+                panelDiem.setVisible(true);
                 tblTKB.setColumnIdentifiers(columnNames);
                 int stt = 1;
                 for(ThoiKhoaBieu item : listSchedule){
@@ -335,27 +504,29 @@ public class managementSchedule extends javax.swing.JFrame {
             }           
         }          
     }
-       
     
-    private void addDataTableSchedule(){
+    private void addDataTable(){
         lableDSSVLop.setVisible(false);
-        DefaultTableModel tableDSSV = new DefaultTableModel();
         
+        DefaultTableModel table = new DefaultTableModel();
+       
         String valueComboBox = cbBoxMHId.getSelectedItem().toString();        
         Lop_MonHoc lop_MH = sc.getLopMonHoc(className, valueComboBox);
         
 //        System.out.println("Lớp - Môn Học:  " + className + " - " + valueComboBox);
         
         if(!(valueComboBox.isEmpty())){
+            int stt = 1;
             lableDSSVLop.setVisible(true);
-            lableDSSVLop.setText("Danh Sách Sinh Viên: " + className + " - " + valueComboBox);
-            panelListSV.setVisible(true);
             
-            tableDSSV.setColumnIdentifiers(columnNamesStudent);
+            lableDSSVLop.setText("Danh Sách Sinh Viên: " + className + " - " + valueComboBox);
+            panelListSV.setVisible(true);            
+            
+            table.setColumnIdentifiers(columnNamesStudent);
             
             ArrayList<SinhVien> listSV = lop_MH.getListSV();
-            int stt = 1;
-            for(SinhVien sv : listSV){                
+            if(listSV.size() > 0) {
+                for(SinhVien sv : listSV){                
                 String[] rows = new String[5];
                 rows[0] = String.valueOf(stt);
                 rows[1] = sv.getMSSV();
@@ -367,16 +538,20 @@ public class managementSchedule extends javax.swing.JFrame {
                     }
                 rows[4] = sv.getCMND();
                 
-                tableDSSV.addRow(rows);
+                table.addRow(rows);
                 stt++;
             }
-            tableDSSVSubject.setModel(tableDSSV);
+               tableDSSVSubject.setModel(table);
+            } else {
+                JOptionPane.showMessageDialog(null, "!!! Chưa Có Danh Sách Lớp Theo Môn Học");
+            }
+            
         } else {
-            tableDSSV.setColumnIdentifiers(columnNamesStudent);
-            tableDSSVSubject.setModel(tableDSSV);
+            table.setColumnIdentifiers(columnNamesStudent);
+            tableDSSVSubject.setModel(table);
         }
     }
-    
+        
     private void importExportFile(String title, int type) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle(title);
@@ -385,7 +560,7 @@ public class managementSchedule extends javax.swing.JFrame {
             case IMPORT_FILE:
                 choose = fileChooser.showOpenDialog(null);
                 break;
-            case EXPORT_FILE:
+            case IMPORT_FILE_SCORE:
                 choose = fileChooser.showSaveDialog(null);
                 break;
         }
@@ -396,8 +571,8 @@ public class managementSchedule extends javax.swing.JFrame {
                 case IMPORT_FILE:
                     readFile(f);
                     break;
-                case EXPORT_FILE:
-                    writeFile(f);
+                case IMPORT_FILE_SCORE:
+                    readFileScore(f);;
                     break;
             }
         }
@@ -409,7 +584,7 @@ public class managementSchedule extends javax.swing.JFrame {
                 BufferedReader buffer = new BufferedReader(reader);
 
                 String line;
-                line = buffer.readLine();
+                line = buffer.readLine();                
 //                System.out.println("File import: " + line);
                 String[] tenLop = line.split(",");
                 LopHoc lh = new LopHoc();
@@ -417,7 +592,7 @@ public class managementSchedule extends javax.swing.JFrame {
                 
                 lh = sc.getLopHoc(tenLop[0]);
 //                System.out.println("tenLop[0]: " + tenLop[0]);
-                if(tenLop[0].equals(className)) {                                
+                if(tenLop[0].equalsIgnoreCase(className)) {                       
                     // get tkb
                     while ((line = buffer.readLine()) != null) {
                         String[] info = line.split(",");
@@ -452,9 +627,39 @@ public class managementSchedule extends javax.swing.JFrame {
 
     }
 
-    private void writeFile(File file) {
-        try{              
+    private void readFileScore(File file) {
+        try{
+            FileReader reader = new FileReader(file);
+            BufferedReader buffer = new BufferedReader(reader);
+
+            String line;
+            line = buffer.readLine(); 
             
+            Lop_MonHoc class_subject = sc.getLopMonHoc(className, idSubject);
+            ArrayList<DiemSinhVien> listDiem = class_subject.getListDiem();
+            listDiem.clear();
+            
+            while((line = buffer.readLine()) != null){
+                String[] tableDiem = line.split(",");
+                 System.out.println("class - id: " + tableDiem[0] + " - " + tableDiem[1]);
+                DiemSinhVien diemSV = new DiemSinhVien();
+                // Bug chưa fix 
+                SinhVien sv = new SinhVien(tableDiem[0], tableDiem[1]);
+                diemSV.setSV(sv);                
+                diemSV.setDiemGK(Float.parseFloat(tableDiem[2]));
+                diemSV.setDiemCK(Float.parseFloat(tableDiem[3]));
+                diemSV.setDiemKhac(Float.parseFloat(tableDiem[4]));
+                diemSV.setDiemTong(Float.parseFloat(tableDiem[5]));
+
+                listDiem.add(diemSV);
+            }
+            System.out.println("SIze: " + listDiem.size());
+            
+            class_subject.setListDiemSV(listDiem);
+            sc.setLopMonHoc(this.className, this.idSubject, class_subject);
+            buffer.close();
+            
+            initLayout();
         } catch(Exception e) {
             JOptionPane.showMessageDialog(null, "Error to export file: " + e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
         }        
@@ -495,17 +700,25 @@ public class managementSchedule extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bntUpdate;
     private javax.swing.JButton btnAddSVBySubject;
+    private javax.swing.JButton btnDSSV;
+    private javax.swing.JButton btnDiem;
+    private javax.swing.JButton btnImportDiem;
     private javax.swing.JButton btnImportTKB;
     private javax.swing.JButton btnReLoad;
     private javax.swing.JComboBox<String> cbBoxMHId;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lableDSSVLop;
     private javax.swing.JLabel lableNotify;
     private javax.swing.JLabel lableTKB;
+    private javax.swing.JPanel panelDSSV;
+    private javax.swing.JPanel panelDiem;
     private javax.swing.JPanel panelListSV;
     private javax.swing.JTable tableDSSVSubject;
     private javax.swing.JTable tableTKB;
