@@ -36,6 +36,13 @@ public class SinhVien {
         this.CMND = _CMND;
     }
     
+    public SinhVien(String _MSSV, String _hoTen){
+        this.MSSV = _MSSV;
+        this.hoTen = _hoTen;
+        this.gioiTinh = -1;
+        this.CMND = "";
+    }
+    
     public String getMSSV(){
         return this.MSSV;
     }
