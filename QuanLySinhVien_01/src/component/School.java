@@ -110,14 +110,14 @@ public class School {
         }
     }
     
-//    
-//    public void setLopMonHoc(String tenLop, String maMH, Lop_MonHoc _target){
-//        for(Lop_MonHoc item : this.listLopMonHoc){
-//            if(item.isExists(tenLop, maMH)){
-//                int index = this.listLopMonHoc.indexOf(item);
-//                this.listLopMonHoc.set(index, _target);
-//            }
-//        }
-//    }
+    
+    public void setLopMonHoc(String tenLop, String maMH, Lop_MonHoc _target){
+        for(Lop_MonHoc item : this.listLopMonHoc){
+            if(item.isExists(tenLop, maMH)){
+                int index = this.listLopMonHoc.indexOf(item);
+                this.listLopMonHoc.set(index, _target);
+            }
+        }
+    }
 }
   

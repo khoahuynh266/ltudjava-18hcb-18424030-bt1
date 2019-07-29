@@ -29,7 +29,7 @@ public class managementClassRoom extends javax.swing.JFrame {
 
     private final int IMPORT_FILE = 1;
     private final int EXPORT_FILE = 2;
-
+    private String tenLop = "";
     static School sc = new School();
     addClass item;
     addSV sv;    
@@ -73,19 +73,12 @@ public class managementClassRoom extends javax.swing.JFrame {
     private void initComponents() {
 
         jFrame1 = new javax.swing.JFrame();
-        jLabel1 = new javax.swing.JLabel();
         btnImport = new javax.swing.JButton();
         classCombo = new javax.swing.JComboBox<>();
         panelOption = new java.awt.Panel();
         btnAddSVToClass = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         btnTKB = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        btnAddDiem = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        dssvMonHoc = new javax.swing.JComboBox<>();
-        jLabel6 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         btnReload = new javax.swing.JButton();
         panelInfo = new java.awt.Panel();
@@ -107,14 +100,13 @@ public class managementClassRoom extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Quản Lý Danh Sách Lớp");
         setAutoRequestFocus(false);
         setBackground(new java.awt.Color(255, 255, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setLocationByPlatform(true);
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        jLabel1.setText("QUẢN LÝ ");
-
+        btnImport.setBackground(new java.awt.Color(153, 204, 255));
         btnImport.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnImport.setText("Import");
         btnImport.addActionListener(new java.awt.event.ActionListener() {
@@ -154,89 +146,33 @@ public class managementClassRoom extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel4.setText("Điểm");
-
-        btnAddDiem.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnAddDiem.setText("Import");
-        btnAddDiem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddDiemActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel5.setText("Môn Học:");
-
-        dssvMonHoc.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        dssvMonHoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lớp-Môn Học" }));
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel6.setText("DSSV Theo Môn");
-
-        jComboBox2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lớp-Môn Học" }));
-
         javax.swing.GroupLayout panelOptionLayout = new javax.swing.GroupLayout(panelOption);
         panelOption.setLayout(panelOptionLayout);
         panelOptionLayout.setHorizontalGroup(
             panelOptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelOptionLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addGap(46, 46, 46)
                 .addComponent(btnAddSVToClass)
                 .addGroup(panelOptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelOptionLayout.createSequentialGroup()
-                        .addGap(82, 82, 82)
+                        .addGap(72, 72, 72)
                         .addComponent(jLabel3))
                     .addGroup(panelOptionLayout.createSequentialGroup()
-                        .addGap(94, 94, 94)
+                        .addGap(84, 84, 84)
                         .addComponent(btnTKB, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(117, 117, 117)
-                .addGroup(panelOptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dssvMonHoc, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelOptionLayout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jLabel6)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
-                .addGroup(panelOptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelOptionLayout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(27, 27, 27)
-                        .addGroup(panelOptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnAddDiem)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelOptionLayout.createSequentialGroup()
-                        .addGap(111, 111, 111)
-                        .addComponent(jLabel4)))
-                .addGap(42, 42, 42))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         panelOptionLayout.setVerticalGroup(
             panelOptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelOptionLayout.createSequentialGroup()
-                .addGroup(panelOptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(panelOptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnAddSVToClass, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelOptionLayout.createSequentialGroup()
-                        .addGap(77, 77, 77)
-                        .addComponent(dssvMonHoc, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelOptionLayout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addGroup(panelOptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelOptionLayout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(panelOptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(btnAddSVToClass, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnTKB, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jLabel6)
-                            .addGroup(panelOptionLayout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnAddDiem, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(24, 24, 24)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelOptionLayout.createSequentialGroup()
-                                .addGap(105, 105, 105)
-                                .addComponent(jLabel5)))))
-                .addContainerGap(37, Short.MAX_VALUE))
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnTKB, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -280,7 +216,7 @@ public class managementClassRoom extends javax.swing.JFrame {
             .addGroup(panelInfoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(className, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(className, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExport, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -314,59 +250,49 @@ public class managementClassRoom extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(130, 130, 130)
+                .addGap(161, 161, 161)
+                .addComponent(btnImport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(90, 90, 90)
+                .addComponent(jLabel2)
+                .addGap(26, 26, 26)
+                .addComponent(classCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66)
+                .addComponent(btnReload, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(275, 275, 275))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(72, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(127, 127, 127)
-                        .addComponent(btnImport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(229, 229, 229)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(26, 26, 26)
-                        .addComponent(classCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(82, 82, 82)
-                        .addComponent(btnReload, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(381, 381, 381))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1007, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(panelInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(203, 203, 203)))
+                        .addGap(86, 86, 86))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(292, 292, 292)
-                        .addComponent(panelInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(panelOption, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(186, 186, 186))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(592, 592, 592)
-                .addComponent(lableNotify, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(718, 718, 718))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(panelOption, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lableNotify, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(437, 437, 437))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(27, 27, 27)
+                .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(btnImport)
                     .addComponent(jLabel2)
                     .addComponent(classCombo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnReload))
-                .addGap(27, 27, 27)
+                .addGap(29, 29, 29)
                 .addComponent(lableNotify)
-                .addGap(40, 40, 40)
+                .addGap(23, 23, 23)
                 .addComponent(panelOption, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addGap(30, 30, 30)
                 .addComponent(panelInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(19, 19, 19)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(169, Short.MAX_VALUE))
         );
 
         btnImport.getAccessibleContext().setAccessibleName("");
@@ -374,6 +300,7 @@ public class managementClassRoom extends javax.swing.JFrame {
         jLabel2.getAccessibleContext().setAccessibleName("");
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportActionPerformed
@@ -391,10 +318,6 @@ public class managementClassRoom extends javax.swing.JFrame {
             addDataForTableListSV();
         }
     }//GEN-LAST:event_classComboActionPerformed
-
-    private void btnAddDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDiemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAddDiemActionPerformed
 
     
     private void btnTKBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTKBActionPerformed
@@ -527,6 +450,15 @@ public class managementClassRoom extends javax.swing.JFrame {
                 String line;
                 line = buffer.readLine();
 //                System.out.println("File import: " + line);
+
+//                LopHoc cr;
+//                cr = school.getClassRoom(this.className);
+//                boolean checkExist = true;
+//                if (cr.checkNameClass("")) {
+//                    checkExist = false;
+//                    cr.setName(_className[0]);
+//                }
+                
                 String[] tenLop = line.split(",");
                 LopHoc lh = this.sc.getLopHoc(tenLop[0]);
                 
@@ -675,7 +607,6 @@ public class managementClassRoom extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAddDiem;
     private javax.swing.JButton btnAddSVToClass;
     private javax.swing.JButton btnExport;
     private javax.swing.JButton btnImport;
@@ -683,15 +614,9 @@ public class managementClassRoom extends javax.swing.JFrame {
     private javax.swing.JButton btnTKB;
     private javax.swing.JComboBox<String> classCombo;
     private javax.swing.JTextField className;
-    private javax.swing.JComboBox<String> dssvMonHoc;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JFrame jFrame1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jsvTable;
     private javax.swing.JLabel lableNotify;

@@ -14,6 +14,7 @@ public class Lop_MonHoc {
     private String tenLop;
     private String maMonHoc;
     private ArrayList<SinhVien> listSV = new ArrayList<SinhVien>();
+    private ArrayList<DiemSinhVien> listDiem = new ArrayList<>();
     
     public String getClassName(){
         return this.tenLop;
@@ -48,5 +49,13 @@ public class Lop_MonHoc {
     
     public void addSV(SinhVien sv){
         this.listSV.add(sv);
+    }
+    
+    public ArrayList<DiemSinhVien> getListDiem() {
+        return listDiem;
+    }
+    
+    public void setListDiemSV(ArrayList<DiemSinhVien> _listDiem) {
+        this.listDiem = (ArrayList<DiemSinhVien>) _listDiem.clone();
     }
 }
